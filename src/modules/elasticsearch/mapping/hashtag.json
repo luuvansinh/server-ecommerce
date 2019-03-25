@@ -1,0 +1,55 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "edge_ngram_filter": {
+          "type": "edgeNGram",
+          "min_gram": 2,
+          "max_gram": 20,
+          "token_chars": [
+            "letter",
+            "digit",
+            "punctuation",
+            "symbol"
+          ]
+        }
+      },
+      "analyzer": {
+        "edge_ngram": {
+          "type": "custom",
+          "tokenizer": "letter",
+          "filter": [
+            "standard",
+            "lowercase",
+            "edge_ngram_filter",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "hashtag": {
+      "properties": {
+        "name": {
+          "type": "text",
+          "fields": {
+            "search": {
+              "type": "text",
+              "analyzer": "edge_ngram"
+            }
+          }
+        },
+        "isTrending": {
+          "type": "boolean"
+        },
+        "counter": {
+          "type": "integer"
+        },
+        "lastUpdated": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "edge_ngram_filter": {
+          "type": "edgeNGram",
+          "min_gram": 2,
+          "max_gram": 20,
+          "token_chars": [
+            "letter",
+            "digit",
+            "punctuation",
+            "symbol"
+          ]
+        }
+      },
+      "analyzer": {
+        "edge_ngram": {
+          "type": "custom",
+          "tokenizer": "letter",
+          "filter": [
+            "standard",
+            "lowercase",
+            "edge_ngram_filter",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "user": {
+      "properties": {
+        "name": {
+          "type": "text",
+          "fields": {
+            "search": {
+              "type": "text",
+              "analyzer": "edge_ngram"
+            }
+          }
+        },
+        "nickname": {
+          "type": "completion"
+        },
+        "phone": {
+          "type": "keyword"
+        },
+        "isLocalExpert": {
+          "type": "keyword"
+        },
+        "city": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "edge_ngram_filter": {
+          "type": "edgeNGram",
+          "min_gram": 2,
+          "max_gram": 20,
+          "token_chars": [
+            "letter",
+            "digit",
+            "punctuation",
+            "symbol"
+          ]
+        }
+      },
+      "analyzer": {
+        "edge_ngram": {
+          "type": "custom",
+          "tokenizer": "letter",
+          "filter": [
+            "standard",
+            "lowercase",
+            "edge_ngram_filter",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "review": {
+      "properties": {
+        "business": {
+          "type": "keyword"
+        },
+        "user": {
+          "type": "keyword"
+        },
+        "point": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "location": {
+          "type": "geo_point"
+        },
+        "hashtags": {
+          "type": "nested"
+        },
+        "score": {
+          "type": "float"
+        },
+        "feedback": {
+          "type": "text",
+          "fields": {
+            "search": {
+              "type": "text",
+              "analyzer": "edge_ngram"
+            }
+          }
+        }
+      }
+    }
+  }
+}
