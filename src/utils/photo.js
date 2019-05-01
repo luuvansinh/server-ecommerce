@@ -6,7 +6,7 @@ import configs from '../configs'
  *
  */
 const defaultPhoto = () => {
-  return configs.getIn(['host', 'files']) + configs.getIn(['amazon', 'name', 'defaultPhoto'])
+  return `${configs.host.files}default-image.gif`
 }
 
 /**
@@ -14,7 +14,7 @@ const defaultPhoto = () => {
  *
  */
 const defaultAvatar = () => {
-  return configs.getIn(['host', 'files']) + configs.getIn(['amazon', 'name', 'defaultAvatar'])
+  return `${configs.host.files}default-avatar.jpg`
 }
 
 /**
@@ -23,7 +23,7 @@ const defaultAvatar = () => {
  * @param  {String} name
  */
 const avatar = (name) => {
-  return name ? (configs.getIn(['host', 'files']) + name) : defaultAvatar()
+  return name ? (configs.host.files + name) : defaultAvatar()
 }
 
 /**
@@ -32,7 +32,7 @@ const avatar = (name) => {
  * @param  {String} name
  */
 const cover = (name) => {
-  return name ? (`${configs.getIn(['host', 'files'])}${configs.getIn(['amazon', 'prefix', 'thumbnail'])}${name}`) : defaultPhoto()
+  return name ? (`${configs.host.files}${name}`) : defaultPhoto()
 }
 
 /**

@@ -23,7 +23,6 @@ const schema = new Schema({
   },
   avatar: {
     type: String,
-    default: '',
   },
   city: {
     type: String,
@@ -32,6 +31,7 @@ const schema = new Schema({
   phone: {
     type: String,
     default: '',
+    unique: true,
   },
   gender: {
     type: String,
@@ -40,6 +40,7 @@ const schema = new Schema({
   email: {
     type: String,
     default: '',
+    unique: true,
   },
   statistic: {
     bill: {
@@ -60,7 +61,7 @@ const schema = new Schema({
     enum: roles,
   },
   salt: String,
-  hashed_password: String,
+  hashedPassword: String,
 }, {
   versionKey: false,
 })
@@ -128,6 +129,7 @@ schema.statics = statics
 schema.pre('save', function (next) {
   // Set search string
   this.searchString = format.nonAccentVietnamese(this.name)
+  this.phone = format.phone(this.phone)
   next()
 })
 

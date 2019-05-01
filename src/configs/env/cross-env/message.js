@@ -18,7 +18,7 @@ export default {
     requireAuth: 'Bạn phải đăng nhập để thực hiện hành động này',
 
     // validation
-    nameRequired: targetRequired('Tên đăng nhập'),
+    nameRequired: targetRequired('Tên'),
     passwordRequired: targetRequired('Mật khẩu'),
     passwordMustLeastAt6: 'Mật khẩu ít nhất 6 ký tự',
     dataExisted: 'Dữ liệu đã tồn tại',
@@ -39,5 +39,14 @@ export default {
     productPriceRequired: 'Giá sản phẩm không được trống',
     productQuantityRequired: targetRequired('Số lượng'),
     productNotFound: targetNotFound('Sản phẩm'),
+
+    // Common
+    emailRequired: 'Email không được trống',
+    phoneRequired: targetRequired('SĐT'),
+    passowrdREquired: targetRequired('Mật khẩu'),
+    addresssRequired: targetRequired('Dịa chỉ'),
+    invalidObjectId: targetInvalid('ID'),
+    quantityMustBeANumber: 'Số lượng ko hợp lệ',
+    orderNotFound: targetNotFound('Order'),
   },
 }

@@ -32,4 +32,8 @@ export default {
     accountKit: `https://graph.accountkit.com/${accountKitVersion}/me`,
     exchangeToken: `https://graph.accountkit.com/${accountKitVersion}/access_token`,
   },
+
+  host: {
+    files: 'http://127.0.0.1:7070/',
+  },
 }

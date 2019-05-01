@@ -1,7 +1,7 @@
 import { validation } from '../../utils';
 import { ObjectId } from '../../utils/mongoose'
 
-const findByCondition = ({ phone, _id }) => {
+const findByCondition = ({ phone, _id, email }) => {
   const condition = {}
 
   if (phone) {
@@ -11,7 +11,11 @@ const findByCondition = ({ phone, _id }) => {
   if (_id && validation.isObjectId(_id)) {
     condition._id = new ObjectId(_id)
   }
-  return {}
+
+  if (email) {
+    condition.email = email
+  }
+  return condition
 }
 
 export default {

@@ -19,7 +19,7 @@ const run = async () => {
     })
     const { error } = await to(user.save())
     if (!error) {
-      console.log('ACCOUNT CUSTOMERCARE was init successfully with phone number', process.env.ADMIN_PHONE)
+      console.log('ACCOUNT ADMIN was init successfully with phone number', process.env.ADMIN_PHONE)
     }
   }
 }

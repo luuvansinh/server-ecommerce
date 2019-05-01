@@ -27,7 +27,7 @@ const modelCountInDb = async (model, _id, role) => {
   }
 
   if (role) {
-    condition['admin.role'] = role
+    condition.role = role
   }
 
   const { data } = await to(model.countDocuments(condition))
@@ -45,6 +45,9 @@ const modelCountInDb = async (model, _id, role) => {
  * Check valid token
  */
 const isAuthenticated = async (req) => {
+  if (!req.user) {
+    return false
+  }
   const isExists = await modelCountInDb(UserModel, req.user._id)
   return isExists
 }

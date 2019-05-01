@@ -23,6 +23,8 @@ const router = express.Router()
  */
 router.post('/login-web-with-phone-number', validation.login, CommonCtrl.loginWebWithPhoneNumber)
 
-router.get('/ping', (req, res) => res.send('pong'))
+router.post('/register', validation.register, CommonCtrl.register)
+
+router.post('/login', validation.publicLogin, CommonCtrl.login)
 
 export default router

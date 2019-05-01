@@ -3,7 +3,7 @@ import response from './response'
 import format from './format'
 import validation from './validation'
 import {
-  UserModel, CategoryModel, ProductModel,
+  UserModel, CategoryModel, ProductModel, OrderModel,
 } from '../model'
 import configs from '../configs';
 
@@ -35,10 +35,15 @@ const product = (req, res, next, _id) => {
   query(req, res, next, _id, ProductModel, configs.message.productNotFound)
 }
 
+const order = (req, res, next, _id) => {
+  query(req, res, next, _id, OrderModel, configs.message.orderNotFound)
+}
+
 
 // Export
 export default {
   user,
   category,
   product,
+  order,
 }

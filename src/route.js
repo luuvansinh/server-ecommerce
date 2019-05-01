@@ -16,6 +16,9 @@ export default () => {
   api.use('/me', require('./packages/me/route').default)
   api.use('/categories', require('./packages/category/route').default)
   api.use('/admin', require('./packages/admin/route').default)
+  api.use('/products', require('./packages/product/route').default)
+  api.use('/cart', require('./packages/cart/route').default)
+  api.use('/orders', require('./packages/order/route').default)
   // Return
   return api
 }

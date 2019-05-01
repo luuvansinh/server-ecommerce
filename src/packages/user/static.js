@@ -1,3 +1,4 @@
+import lodash from 'lodash'
 import dbQuery from './query'
 import { UserModel } from '../../model';
 import { to } from '../../utils';
@@ -26,9 +27,22 @@ const getInfo = async (_id) => {
   return user
 }
 
+const newDoc = async (data) => {
+  const doc = new UserModel(data)
+  const result = await to(doc.save())
+  return result
+}
+
+const briefInfo = async (user) => {
+  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender'])
+  return result
+}
+
 export default {
   findByCondition,
   countByCondition,
   findOneByCondition,
   getInfo,
+  newDoc,
+  briefInfo,
 }

@@ -26,7 +26,7 @@ app.use(methodOverride())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(helmet())
-app.use('/static', express.static(path.join(process.cwd(), 'uploads')))
+app.use('/', express.static(path.join(process.cwd(), 'uploads')))
 
 // DOC
 app.get('/apidoc', (req, res) => {

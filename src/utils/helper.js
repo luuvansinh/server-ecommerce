@@ -186,24 +186,8 @@ const getSlug = (value) => {
  */
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-/**
- * Get location of object
- *
- * @param {Object} obj object contain location
- */
-const getLocation = ({ location }) => {
-  if (!location || !location.coordinates || !location.coordinates.length) {
-    return null
-  }
-  return {
-    lat: location.coordinates[1],
-    lon: location.coordinates[0],
-  }
-}
-
 export default {
   parseJSONString,
   getSlug,
   delay,
-  getLocation,
 }

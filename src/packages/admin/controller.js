@@ -57,6 +57,10 @@ const getAllProducts = async (req, res) => {
     limitPerPage: LIMIT,
     total: await ProductModel.countByCondition(req.query),
   }])
+  data[0].products = await Promise.all(data[0].products.map(async (item) => {
+    const obj = await ProductModel.briefInfo(item)
+    return obj
+  }))
   return response.r200(res, data[0])
 }
 
@@ -79,12 +83,17 @@ const changeStatusProduct = async (req, res) => {
 
 const detailProduct = async (req, res) => {
   const { productData } = req
-  // await ProductModel.fake()
-  return response.r200(res, { product: productData })
+  const product = await ProductModel.getDetail(productData)
+  return response.r200(res, { product })
 }
 
 const uploadCovers = async (req, res) => {
-  // const { error } = await ProductModel.updateById(req.productData._id, })
+  const { error } = await ProductModel.updateById(req.productData._id, {
+    $push: { covers: req.file.filename },
+  })
+  if (error) {
+    return response.r400(res, getError.message(error))
+  }
   return response.r200(res, {})
 }
 

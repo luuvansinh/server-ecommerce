@@ -1,6 +1,7 @@
+import lodash from 'lodash'
 import faker from 'faker/locale/vi'
 import { ProductModel } from '../../model'
-import { to } from '../../utils';
+import { to, photo } from '../../utils';
 import dbQuery from './query'
 
 
@@ -48,12 +49,44 @@ const fake = async () => {
     products.push(product)
   }
   products.forEach(async (item) => {
-    // console.log({ item })
     await newDoc(item)
   })
 }
 
-// const updateCovers = async (product, )
+const briefInfo = async (product) => {
+  const data = await Promise.all([{
+    covers: await photo.covers(product.covers),
+    currentPrice: getPrice(product),
+  }])
+  return {
+    ...lodash.pick(product, ['_id', 'name', 'price', 'discountPercent']),
+    ...data[0],
+  }
+}
+
+const getPrice = (product) => {
+  return Math.round(product.price * (1 - (product.discountPercent / 100)))
+}
+
+const briefInfoById = async (id) => {
+  const product = await ProductModel.findById(id)
+  const data = await briefInfo(product.toJSON())
+  return data
+}
+
+// const briefInfoByCondition = (condition) => {
+//   const query = dbQuery.findByCondition()
+// }
+
+const getDetail = async (product) => {
+  const data = await Promise.all([{
+    covers: await photo.covers(product.covers),
+  }])
+  return {
+    ...product.toJSON(),
+    ...data[0],
+  }
+}
 
 export default {
   updateById,
@@ -61,4 +94,7 @@ export default {
   findByCondition,
   countByCondition,
   fake,
+  briefInfo,
+  briefInfoById,
+  getDetail,
 }
