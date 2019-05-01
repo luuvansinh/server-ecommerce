@@ -29,11 +29,11 @@ const newDoc = async (data, user) => {
     total: Math.round(total),
   })
   const result = await to(doc.save())
-  if (!result.error) {
-    await CartModel.update({ user }, {
-      $set: { list: [] },
-    })
-  }
+  // if (!result.error) {
+  //   await CartModel.update({ user }, {
+  //     $set: { list: [] },
+  //   })
+  // }
   return result
 }
 

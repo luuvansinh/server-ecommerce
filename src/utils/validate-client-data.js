@@ -1,5 +1,4 @@
 import Joi from 'joi'
-import config from '../configs'
 import response from './response'
 
 /**
