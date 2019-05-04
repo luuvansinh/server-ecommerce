@@ -26,6 +26,12 @@ const newDoc = async (doc) => {
   return result
 }
 
+const updateDoc = async (doc, data) => {
+  Object.assign(doc, data)
+  const result = await to(doc.save())
+  return result
+}
+
 /**
  * Update doc by _id
  */
@@ -82,10 +88,24 @@ const getDetail = async (product) => {
   const data = await Promise.all([{
     covers: await photo.covers(product.covers),
   }])
+  await updateById(product._id, {
+    $inc: {
+      'statistic.viewed': 1,
+    },
+  })
   return {
     ...product.toJSON(),
     ...data[0],
   }
+}
+
+const calculateFromOrder = async (list) => {
+  await Promise.all(list.map(async (item) => {
+    const result = await ProductModel.findByIdAndUpdate(item.product, {
+      $inc: { 'statistic.ordered': item.quantity },
+    })
+    return result
+  }))
 }
 
 export default {
@@ -97,4 +117,6 @@ export default {
   briefInfo,
   briefInfoById,
   getDetail,
+  calculateFromOrder,
+  updateDoc,
 }

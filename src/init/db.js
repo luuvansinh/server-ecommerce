@@ -10,6 +10,9 @@ import config from '../configs'
 
 export default async function () {
   try {
+    mongoose.set('useNewUrlParser', true);
+    mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
     await mongoose.connect(config.db, config.dbOptions)
     console.log('- DATABASE'.padEnd(15), 'READY -', config.db)
   } catch (error) {

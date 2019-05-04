@@ -30,6 +30,10 @@ const schema = new Schema({
       type: Number,
       default: 0,
     },
+    rate: {
+      type: Number,
+      default: 0,
+    },
   },
   active: {
     type: Boolean,
