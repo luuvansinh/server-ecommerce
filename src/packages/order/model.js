@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import statics from './static'
 import { format } from '../../utils';
 
-const status = ['pending', 'verified', 'completed', 'canceled']
+const status = ['pending', 'shipping', 'done', 'canceled']
 const methods = ['COD', 'paypal']
 
 const schema = new Schema({

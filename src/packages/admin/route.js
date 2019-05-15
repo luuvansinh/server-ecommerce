@@ -3,6 +3,7 @@ import controller from './controller'
 import { preQuery } from '../../utils'
 import validation from './validation'
 import UploadModule from '../../modules/upload'
+import middleware from '../system/middleware'
 
 const router = express.Router()
 
@@ -37,5 +38,15 @@ router.patch('/products/:productId/change-status', controller.changeStatusProduc
 router.patch('/products/:productId/covers', UploadModule.uploadImage('file'), controller.uploadCovers)
 
 router.param('productId', preQuery.product)
+
+/**
+ * Orders
+ */
+
+router.get('/orders', middleware.requiresAdmin, controller.allOrders)
+
+router.patch('/orders/:orderId/change-status', middleware.requiresAdmin, validation.changeOrderStatus, controller.changeOrderStatus)
+
+router.param('orderId', preQuery.order)
 
 export default router

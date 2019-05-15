@@ -1,4 +1,4 @@
-import { OrderModel, CartModel, ProductModel } from '../../model';
+import { OrderModel, CartModel, ProductModel, UserModel } from '../../model';
 import { to } from '../../utils';
 import dbQuery from './query'
 import configs from '../../configs';
@@ -66,8 +66,41 @@ const getHistories = async (user) => {
   return orders
 }
 
+const findByCondition = async (condition, { page, limit }, sort = '-createdAt') => {
+  const query = dbQuery.findByCondition(condition)
+  const { data } = await to(OrderModel.find(query).skip(page * limit).limit(limit).sort(sort).lean())
+  return data
+}
+
+const countByCondition = async (condition) => {
+  const query = dbQuery.findByCondition(condition)
+  const { data } = await to(OrderModel.countDocuments(query))
+  return data
+}
+
+const briefInfo = async (order) => {
+  const data = await Promise.all([{
+    user: await UserModel.briefById(order.user),
+    list: await Promise.all(order.list.map(async (item) => {
+      const product = await ProductModel.getBaseInfo(item.product)
+      return {
+        ...item,
+        ...product,
+      }
+    })),
+  }])
+
+  return {
+    ...order,
+    ...data[0],
+  }
+}
+
 export default {
   newDoc,
   updateDoc,
   getHistories,
+  findByCondition,
+  countByCondition,
+  briefInfo,
 }

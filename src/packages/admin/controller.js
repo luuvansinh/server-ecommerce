@@ -1,7 +1,7 @@
-import { CategoryModel, ProductModel } from '../../model'
+import { CategoryModel, ProductModel, OrderModel } from '../../model'
 import { getError, response } from '../../utils'
 
-const LIMIT = 20
+const limit = 20
 
 /**
  * Category section
@@ -53,8 +53,8 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   const { page = 0, sort = '-createdAt' } = req.query
   const data = await Promise.all([{
-    products: await ProductModel.findByCondition(req.query, { page, LIMIT }, sort),
-    limitPerPage: LIMIT,
+    products: await ProductModel.findByCondition(req.query, { page, limit }, sort),
+    limitPerPage: limit,
     total: await ProductModel.countByCondition(req.query),
   }])
   data[0].products = await Promise.all(data[0].products.map(async (item) => {
@@ -97,6 +97,33 @@ const uploadCovers = async (req, res) => {
   return response.r200(res, {})
 }
 
+
+// Orders
+const allOrders = async (req, res) => {
+  const { page = 0, sort } = req.query
+  const data = await Promise.all([{
+    orders: await OrderModel.findByCondition(req.query, { page, limit }, sort),
+    total: await OrderModel.countByCondition(req.query),
+    limit,
+  }])
+
+  data[0].orders = await Promise.all(data[0].orders.map(async (order) => {
+    const obj = await OrderModel.briefInfo(order)
+    return obj
+  }))
+
+  return response.r200(res, data[0])
+}
+
+const changeOrderStatus = async (req, res) => {
+  const { orderData, body: { status } } = req
+  const { error } = await OrderModel.updateDoc(orderData, { status })
+  if (error) {
+    return response.r400(res, getError.message(error))
+  }
+  return response.r200(res)
+}
+
 export default {
   createCategory,
   allCategories,
@@ -108,4 +135,6 @@ export default {
   changeStatusProduct,
   detailProduct,
   uploadCovers,
+  allOrders,
+  changeOrderStatus,
 }

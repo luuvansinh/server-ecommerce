@@ -45,6 +45,18 @@ const category = {
   }),
 }
 
+const order = {
+  status: Joi.string().required().options({
+    language: {
+      key: '{{!status}}',
+      any: {
+        required: `!!${message.statusRequired}`,
+        empty: `!!${message.statusRequired}`,
+      },
+    },
+  }),
+}
+
 const createProduct = (req, res, next) => {
   validateClientData(req, res, next, Joi.object().keys(product))
 }
@@ -53,7 +65,12 @@ const createCategory = (req, res, next) => {
   validateClientData(req, res, next, Joi.object().keys(category))
 }
 
+const changeOrderStatus = (req, res, next) => {
+  validateClientData(req, res, next, Joi.object().keys(order))
+}
+
 export default {
   createProduct,
   createCategory,
+  changeOrderStatus,
 }

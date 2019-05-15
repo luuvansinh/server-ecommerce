@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { Schema, mongoose } from '../../utils/mongoose'
+import mongoose, { Schema } from 'mongoose'
 import config from '../../configs'
 import { format } from '../../utils'
 import statics from './static'

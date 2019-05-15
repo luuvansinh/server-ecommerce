@@ -38,6 +38,12 @@ const briefInfo = async (user) => {
   return result
 }
 
+const briefById = async (_id) => {
+  const user = await getInfo(_id)
+  const result = await briefInfo(user)
+  return result
+}
+
 export default {
   findByCondition,
   countByCondition,
@@ -45,4 +51,5 @@ export default {
   getInfo,
   newDoc,
   briefInfo,
+  briefById,
 }
