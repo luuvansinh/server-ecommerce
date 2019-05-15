@@ -10,6 +10,9 @@ const message = (error) => {
   if (!error) {
     return msg
   }
+  if (error.message) {
+    return error.message
+  }
 
   if (error.name === 'MongoError' || error.name === 'BulkWriteError') {
     if (error.code === 11000) {

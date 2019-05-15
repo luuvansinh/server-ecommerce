@@ -1,6 +1,6 @@
 import lodash from 'lodash'
 import faker from 'faker/locale/vi'
-import { ProductModel } from '../../model'
+import { ProductModel, CategoryModel } from '../../model'
 import { to, photo } from '../../utils';
 import dbQuery from './query'
 
@@ -63,9 +63,10 @@ const briefInfo = async (product) => {
   const data = await Promise.all([{
     covers: await photo.covers(product.covers),
     currentPrice: getPrice(product),
+    categories: await CategoryModel.briefInfoByIds(product.categories),
   }])
   return {
-    ...lodash.pick(product, ['_id', 'name', 'price', 'discountPercent']),
+    ...lodash.pick(product, ['_id', 'name', 'price', 'discountPercent', 'active', 'categories', 'quantity']),
     ...data[0],
   }
 }
@@ -102,10 +103,19 @@ const getDetail = async (product) => {
 const calculateFromOrder = async (list) => {
   await Promise.all(list.map(async (item) => {
     const result = await ProductModel.findByIdAndUpdate(item.product, {
-      $inc: { 'statistic.ordered': item.quantity },
+      $inc: {
+        'statistic.ordered': item.quantity,
+        quantity: -item.quantity,
+      },
     })
     return result
   }))
+}
+
+const getBaseInfo = async (productId) => {
+  const data = await ProductModel.findById(productId)
+  const product = await briefInfo(data)
+  return lodash.pick(product, ['_id', 'name', 'covers'])
 }
 
 export default {
@@ -119,4 +129,5 @@ export default {
   getDetail,
   calculateFromOrder,
   updateDoc,
+  getBaseInfo,
 }

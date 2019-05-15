@@ -10,6 +10,8 @@ router.post('/', middleware.requiresLogin, validation.order, controller.order)
 
 router.patch('/:orderId', controller.cancel)
 
+router.get('/', middleware.requiresLogin, controller.getAll)
+
 router.param('orderId', preQuery.order)
 
 export default router

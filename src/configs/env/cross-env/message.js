@@ -48,5 +48,6 @@ export default {
     invalidObjectId: targetInvalid('ID'),
     quantityMustBeANumber: 'Số lượng ko hợp lệ',
     orderNotFound: targetNotFound('Order'),
+    cartEmpty: 'Giỏ hàng đang trống',
   },
 }

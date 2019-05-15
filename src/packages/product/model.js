@@ -1,4 +1,4 @@
-import { Schema, mongoose } from '../../utils/mongoose'
+import mongoose, { Schema } from 'mongoose'
 import statics from './static'
 import configs from '../../configs'
 import { format } from '../../utils'
@@ -68,6 +68,12 @@ const schema = new Schema({
 })
 
 schema.statics = statics
+
+
+schema.methods.getPrice = function () {
+  const price = Math.round(this.price * (1 - (this.discountPercent / 100)))
+  return price
+}
 
 schema.pre('save', function (next) {
   this.searchString = format.nonAccentVietnamese(this.name)

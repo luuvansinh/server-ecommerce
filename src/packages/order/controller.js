@@ -19,7 +19,13 @@ const cancel = async (req, res) => {
   response.r200(res)
 }
 
+const getAll = async (req, res) => {
+  const orders = await OrderModel.getHistories(req.user._id)
+  response.r200(res, { orders })
+}
+
 export default {
   order,
   cancel,
+  getAll,
 }

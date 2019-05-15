@@ -1,3 +1,4 @@
+import lodash from 'lodash'
 import { CategoryModel, ProductModel } from '../../model'
 import { to } from '../../utils'
 import dbQuery from './query'
@@ -48,10 +49,25 @@ const getDetail = async (_id) => {
   }
 }
 
+const briefInfo = async (category) => {
+  return lodash.pick(category, ['_id', 'name'])
+}
+
+const briefInfoByIds = async (_ids) => {
+  const query = dbQuery.findByCondition({ _ids })
+  const categories = await CategoryModel.find(query).lean()
+  const result = await Promise.all(categories.map(async (item) => {
+    const obj = await briefInfo(item)
+    return obj
+  }))
+  return result
+}
+
 export default {
   newDoc,
   findByCondition,
   updateById,
   findOneByCondition,
   getDetail,
+  briefInfoByIds,
 }
