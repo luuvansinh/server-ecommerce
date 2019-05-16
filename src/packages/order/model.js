@@ -1,8 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import statics from './static'
 import { format } from '../../utils';
+import configs from '../../configs';
 
-const status = ['pending', 'shipping', 'done', 'canceled']
+const { status } = configs.validation.order
 const methods = ['COD', 'paypal']
 
 const schema = new Schema({

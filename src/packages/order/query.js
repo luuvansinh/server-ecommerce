@@ -1,7 +1,10 @@
 import { validation } from '../../utils';
 import { ObjectId } from '../../utils/mongoose';
+import configs from '../../configs';
 
-const findByCondition = ({ _id, user }) => {
+const orderStatus = configs.validation.order.status
+
+const findByCondition = ({ _id, user, status }) => {
   const condition = {}
 
   if (_id && validation.isObjectId(_id)) {
@@ -9,6 +12,9 @@ const findByCondition = ({ _id, user }) => {
   }
   if (user && validation.isObjectId(user)) {
     condition.user = new ObjectId(user)
+  }
+  if (orderStatus.includes(status)) {
+    condition.status = status
   }
   return condition
 }

@@ -4,5 +4,8 @@ export default {
     user: {
       maxLengthName: 128,
     },
+    order: {
+      status: ['pending', 'shipping', 'done', 'canceled'],
+    },
   },
 }
