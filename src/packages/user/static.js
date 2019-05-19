@@ -44,6 +44,16 @@ const briefById = async (_id) => {
   return result
 }
 
+const updateStatistic = async (user, order) => {
+  const result = await UserModel.findByIdAndUpdate(user, {
+    $inc: {
+      'statistic.bill': 1,
+      'statistic.expense': order.total,
+    },
+  })
+  return result
+}
+
 export default {
   findByCondition,
   countByCondition,
@@ -52,4 +62,5 @@ export default {
   newDoc,
   briefInfo,
   briefById,
+  updateStatistic,
 }

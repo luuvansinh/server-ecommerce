@@ -38,10 +38,13 @@ const newDoc = async (data, user) => {
   })
   const result = await to(doc.save())
   if (!result.error) {
-    await CartModel.updateOne({ user }, {
-      $set: { list: [] },
-    })
-    await ProductModel.calculateFromOrder(doc.list)
+    await Promise.all([
+      await CartModel.updateOne({ user }, {
+        $set: { list: [] },
+      }),
+      await ProductModel.calculateFromOrder(doc.list),
+      await UserModel.updateStatistic(user, doc),
+    ])
   }
   return result
 }
