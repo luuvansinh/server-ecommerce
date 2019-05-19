@@ -1,4 +1,6 @@
 import diacritics from 'diacritics'
+import moment from 'moment'
+import lodash from 'lodash'
 
 const removeDiacritics = diacritics.remove
 
@@ -74,9 +76,34 @@ function nonAccentVietnamese(str) {
   return str
 }
 
+const convertStatisticData = (data, startAt, endAt, dateField) => {
+  const result = []
+  const startDate = moment(startAt).set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+  const endDate = moment(endAt)
+  // store index of element in data array that will be check in next loop
+  let index = 0
+
+  while (startDate.isSameOrBefore(endDate)) {
+    if (index < data.length
+        && startDate.isSameOrBefore(moment(data[index][dateField]))
+        && startDate.dayOfYear() === moment(data[index][dateField]).dayOfYear()) {
+      result.push({ ...lodash.pick(data[index], 'total'), date: moment(data[index][dateField]).startOf('d').toISOString() })
+      index++
+    } else {
+      result.push({
+        total: 0,
+        date: startDate.toISOString(),
+      })
+    }
+    startDate.add(1, 'd')
+  }
+  return result
+}
+
 export default {
   searchString,
   phone,
   lowerCaseFirstLetter,
   nonAccentVietnamese,
+  convertStatisticData,
 }

@@ -124,6 +124,11 @@ const changeOrderStatus = async (req, res) => {
   return response.r200(res)
 }
 
+const orderChart = async (req, res) => {
+  const data = await OrderModel.getDataForChart(req.query)
+  response.r200(res, { chart: data })
+}
+
 export default {
   createCategory,
   allCategories,
@@ -137,4 +142,5 @@ export default {
   uploadCovers,
   allOrders,
   changeOrderStatus,
+  orderChart,
 }

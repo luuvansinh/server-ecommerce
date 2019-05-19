@@ -1,7 +1,9 @@
 import { OrderModel, CartModel, ProductModel, UserModel } from '../../model';
-import { to } from '../../utils';
+import { to, format } from '../../utils';
 import dbQuery from './query'
 import configs from '../../configs';
+
+const TIME_ZONE = 7 * 60 * 60 * 1000
 
 const newDoc = async (data, user) => {
   const cart = await CartModel.findOneByCondition({ user })
@@ -96,6 +98,32 @@ const briefInfo = async (order) => {
   }
 }
 
+const getDataForChart = async (condition) => {
+  const query = dbQuery.findByCondition(condition)
+  const data = await OrderModel.aggregate([{
+    $match: query,
+  }, {
+    $project: {
+      year: { $year: { $add: ['$createdAt', TIME_ZONE] } },
+      month: { $month: { $add: ['$createdAt', TIME_ZONE] } },
+      day: { $dayOfMonth: { $add: ['$createdAt', TIME_ZONE] } },
+      createdAt: 1,
+    },
+  }, {
+    $group: {
+      _id: { year: '$year', month: '$month', day: '$day' },
+      createdAt: { $first: '$createdAt' },
+      total: { $sum: 1 },
+    },
+  }, {
+    $sort: {
+      createdAt: 1,
+    },
+  }])
+  const result = format.convertStatisticData(data, condition.startAt, condition.endAt, 'createdAt')
+  return result
+}
+
 export default {
   newDoc,
   updateDoc,
@@ -103,4 +131,5 @@ export default {
   findByCondition,
   countByCondition,
   briefInfo,
+  getDataForChart,
 }

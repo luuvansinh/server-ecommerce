@@ -47,6 +47,8 @@ router.get('/orders', middleware.requiresAdmin, controller.allOrders)
 
 router.patch('/orders/:orderId/change-status', middleware.requiresAdmin, validation.changeOrderStatus, controller.changeOrderStatus)
 
+router.get('/orders/chart', middleware.requiresAdmin, controller.orderChart)
+
 router.param('orderId', preQuery.order)
 
 export default router
