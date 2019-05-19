@@ -51,4 +51,14 @@ router.get('/orders/chart', middleware.requiresAdmin, controller.orderChart)
 
 router.param('orderId', preQuery.order)
 
+/**
+ * Users
+ */
+
+router.get('/users', middleware.requiresAdmin, controller.userAll)
+
+router.patch('/users/:userId/change-status', middleware.requiresAdmin, controller.userChangeStatus)
+
+router.param('userId', preQuery.user)
+
 export default router

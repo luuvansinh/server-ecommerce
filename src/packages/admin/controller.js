@@ -1,4 +1,4 @@
-import { CategoryModel, ProductModel, OrderModel } from '../../model'
+import { CategoryModel, ProductModel, OrderModel, UserModel } from '../../model'
 import { getError, response } from '../../utils'
 
 const limit = 20
@@ -129,6 +129,39 @@ const orderChart = async (req, res) => {
   response.r200(res, { chart: data })
 }
 
+/**
+ * Users
+ */
+
+const userAll = async (req, res) => {
+  const { page = 0, sort } = req.query
+
+  const data = await Promise.all([{
+    users: await UserModel.findByCondition(req.query, { page, limit }, sort),
+    total: await UserModel.countByCondition(req.query),
+    limitPerPage: limit,
+  }])
+
+  const result = data[0]
+
+  result.users = await Promise.all(result.users.map(async (item) => {
+    const obj = await UserModel.briefInfo(item)
+    return obj
+  }))
+
+  return response.r200(res, result)
+}
+
+const userChangeStatus = async (req, res) => {
+  const { error } = await UserModel.updateDoc(req.userData, {
+    active: !req.userData.active,
+  })
+  if (error) {
+    return response.r400(res, getError.message(error))
+  }
+  return response.r200(res)
+}
+
 export default {
   createCategory,
   allCategories,
@@ -143,4 +176,6 @@ export default {
   allOrders,
   changeOrderStatus,
   orderChart,
+  userAll,
+  userChangeStatus,
 }

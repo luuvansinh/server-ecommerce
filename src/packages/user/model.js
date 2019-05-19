@@ -62,6 +62,7 @@ const schema = new Schema({
   },
   salt: String,
   hashedPassword: String,
+  active: Boolean,
 }, {
   versionKey: false,
 })

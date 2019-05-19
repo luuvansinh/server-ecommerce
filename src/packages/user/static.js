@@ -34,7 +34,7 @@ const newDoc = async (data) => {
 }
 
 const briefInfo = async (user) => {
-  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender'])
+  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender', 'active', 'statistic'])
   return result
 }
 
@@ -54,6 +54,12 @@ const updateStatistic = async (user, order) => {
   return result
 }
 
+const updateDoc = async (user, data) => {
+  Object.assign(user, data)
+  const result = await to(user.save())
+  return result
+}
+
 export default {
   findByCondition,
   countByCondition,
@@ -63,4 +69,5 @@ export default {
   briefInfo,
   briefById,
   updateStatistic,
+  updateDoc,
 }

@@ -1,7 +1,7 @@
-import { validation } from '../../utils';
+import { validation, format } from '../../utils';
 import { ObjectId } from '../../utils/mongoose'
 
-const findByCondition = ({ phone, _id, email }) => {
+const findByCondition = ({ phone, _id, email, keyword }) => {
   const condition = {}
 
   if (phone) {
@@ -14,6 +14,10 @@ const findByCondition = ({ phone, _id, email }) => {
 
   if (email) {
     condition.email = email
+  }
+
+  if (keyword) {
+    condition.searchString = format.searchString(keyword)
   }
   return condition
 }
