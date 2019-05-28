@@ -3,7 +3,7 @@ import response from './response'
 import format from './format'
 import validation from './validation'
 import {
-  UserModel, CategoryModel, ProductModel, OrderModel,
+  UserModel, CategoryModel, ProductModel, OrderModel, PromotionModel,
 } from '../model'
 import configs from '../configs';
 
@@ -39,6 +39,9 @@ const order = (req, res, next, _id) => {
   query(req, res, next, _id, OrderModel, configs.message.orderNotFound)
 }
 
+const promotion = (req, res, next, _id) => {
+  query(req, res, next, _id, PromotionModel, configs.message.orderNotFound)
+}
 
 // Export
 export default {
@@ -46,4 +49,5 @@ export default {
   category,
   product,
   order,
+  promotion,
 }

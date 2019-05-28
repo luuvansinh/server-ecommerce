@@ -1,4 +1,4 @@
-import { CategoryModel, ProductModel, OrderModel, UserModel } from '../../model'
+import { CategoryModel, ProductModel, OrderModel, UserModel, PromotionModel } from '../../model'
 import { getError, response } from '../../utils'
 
 const limit = 20
@@ -65,7 +65,7 @@ const getAllProducts = async (req, res) => {
 }
 
 const updateProduct = async (req, res) => {
-  const { error } = await ProductModel.updateById(req.params.productId, { $set: req.body })
+  const { error } = await ProductModel.updateDoc(req.productData, req.body)
   if (error) {
     return response.r400(res, getError.message(error))
   }
@@ -162,6 +162,37 @@ const userChangeStatus = async (req, res) => {
   return response.r200(res)
 }
 
+/**
+ * Promotion
+ */
+
+const promotionGetAll = async (req, res) => {
+  const { page = 0, sort } = req.query
+
+  const data = await Promise.all([{
+    promotions: await PromotionModel.findByCondition(req.query, { page, limit }, sort),
+    total: await PromotionModel.countByCondition(req.query),
+    limit,
+  }])
+  return response.r200(res, data[0])
+}
+
+const promotionCreate = async (req, res) => {
+  const { error } = await PromotionModel.newDoc(req.body)
+  if (error) {
+    return response.r400(res, getError.message(error))
+  }
+  return response.r200(res)
+}
+
+const promotionUpdate = async (req, res) => {
+  const { error } = await PromotionModel.updateDoc(req.promotionData, req.body)
+  if (error) {
+    return response.r400(res, getError.message(error))
+  }
+  return response.r200(res)
+}
+
 export default {
   createCategory,
   allCategories,
@@ -178,4 +209,7 @@ export default {
   orderChart,
   userAll,
   userChangeStatus,
+  promotionGetAll,
+  promotionCreate,
+  promotionUpdate,
 }

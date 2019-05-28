@@ -61,4 +61,16 @@ router.patch('/users/:userId/change-status', middleware.requiresAdmin, controlle
 
 router.param('userId', preQuery.user)
 
+/**
+ * Promotions
+ */
+
+router.get('/promotions', middleware.requiresAdmin, controller.promotionGetAll)
+
+router.post('/promotions', middleware.requiresAdmin, controller.promotionCreate)
+
+router.put('/promotions/:promotionId', middleware.requiresAdmin, controller.promotionUpdate)
+
+router.param('promotionId', preQuery.promotion)
+
 export default router

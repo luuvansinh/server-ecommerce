@@ -16,7 +16,8 @@ const all = async (req, res) => {
     const obj = await ProductModel.briefInfo(item)
     return obj
   }))
-  return response.r200(res, data[0])
+  result.endData = result.products.length < result.limit
+  return response.r200(res, result)
 }
 
 const show = async (req, res) => {

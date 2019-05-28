@@ -1,4 +1,4 @@
-import { Schema, mongoose } from '../../utils/mongoose'
+import mongoose, { Schema } from 'mongoose'
 import statics from './static'
 
 const schema = new Schema({
@@ -13,11 +13,20 @@ const schema = new Schema({
   type: {
     type: String,
   },
-  value: {
+  categories: [{
     type: Schema.Types.ObjectId,
-  },
+    ref: 'Category',
+  }],
+  products: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product',
+  }],
   startAt: Date,
   endAt: Date,
+  active: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   versionKey: false,
 })

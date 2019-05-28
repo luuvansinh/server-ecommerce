@@ -1,7 +1,7 @@
 import lodash from 'lodash'
 import dbQuery from './query'
 import { UserModel } from '../../model';
-import { to } from '../../utils';
+import { to, photo } from '../../utils';
 
 
 const findByCondition = async (condition, { page, limit }, sort = '-createdAt') => {
@@ -24,7 +24,8 @@ const findOneByCondition = async (condition) => {
 
 const getInfo = async (_id) => {
   const user = await findOneByCondition({ _id })
-  return user
+  const data = await briefInfo(user)
+  return data
 }
 
 const newDoc = async (data) => {
@@ -34,8 +35,14 @@ const newDoc = async (data) => {
 }
 
 const briefInfo = async (user) => {
-  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender', 'active', 'statistic'])
-  return result
+  const data = await Promise.all([{
+    avatar: photo.avatar(user.avatar),
+  }])
+  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender', 'active', 'statistic', 'role'])
+  return {
+    ...result,
+    ...data[0],
+  }
 }
 
 const briefById = async (_id) => {

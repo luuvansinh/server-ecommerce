@@ -51,5 +51,7 @@ export default {
     orderNotFound: targetNotFound('Order'),
     cartEmpty: 'Giỏ hàng đang trống',
     statusRequired: targetRequired('Trạng thái'),
+
+    promotionNotFound: targetNotFound('Promotion'),
   },
 }
