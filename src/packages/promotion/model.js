@@ -10,7 +10,8 @@ const schema = new Schema({
     type: Number,
     default: 0,
   },
-  type: {
+  // categories or product
+  applyForType: {
     type: String,
   },
   categories: [{

@@ -97,6 +97,19 @@ const uploadCovers = async (req, res) => {
   return response.r200(res, {})
 }
 
+const productRemoveCover = async (req, res) => {
+  const { error } = await ProductModel.updateById(req.productData._id, {
+    $pull: { covers: req.body.cover },
+  })
+
+  if (error) {
+    return response.r400(res, getError.message(error))
+  }
+  let product = await ProductModel.findById(req.productData._id)
+  product = await ProductModel.getDetail(product)
+  return response.r200(res, { product })
+}
+
 
 // Orders
 const allOrders = async (req, res) => {
@@ -202,6 +215,7 @@ export default {
   updateProduct,
   getAllProducts,
   changeStatusProduct,
+  productRemoveCover,
   detailProduct,
   uploadCovers,
   allOrders,

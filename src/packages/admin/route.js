@@ -37,6 +37,8 @@ router.patch('/products/:productId/change-status', controller.changeStatusProduc
 
 router.patch('/products/:productId/covers', UploadModule.uploadImage('file'), controller.uploadCovers)
 
+router.delete('/products/:productId/covers', controller.productRemoveCover)
+
 router.param('productId', preQuery.product)
 
 /**
