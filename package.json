@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon app.js --exec \"DEBUG=App node -r dotenv/config -r babel-register\"",
-    "start": "nodemon app.js --exec \"NODE_ENV=production node -r dotenv/config -r babel-register\"",
-    "test": "NODE_ENV=test nyc --show-process-tree mocha ./src/**/*.test.js --require=dotenv/config --require babel-core/register --timeout 20000 --slow 500 --exit",
+    "dev": "nodemon app.js --exec \"DEBUG=App node -r babel-register\"",
+    "start": "nodemon app.js --exec \"NODE_ENV=production node -r babel-register\"",
     "lint": "eslint --ext .js src",
     "precommit-msg": "echo 'Pre-commit checks ...' && exit 0",
-    "precommit": "npm run lint",
-    "apidoc": "apidoc -i src/ -o apidoc"
+    "precommit": "npm run lint"
   },
   "pre-commit": [
     "precommit-msg",
@@ -29,12 +27,6 @@
     "plugins": [
       "transform-object-rest-spread"
     ]
-  },
-  "apidoc": {
-    "name": "Server API",
-    "version": "1.0.0",
-    "description": "Dev: http://125.212.219.219:5070 \n Prod: https://admin-api.zody.vn",
-    "title": "Server API"
   },
   "nyc": {
     "exclude": [

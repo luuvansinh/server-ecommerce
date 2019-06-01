@@ -20,8 +20,20 @@ const cancel = async (req, res) => {
 }
 
 const getAll = async (req, res) => {
-  const orders = await OrderModel.getHistories(req.user._id)
-  response.r200(res, { orders })
+  const { page = 0, sort } = req.query
+  const limit = 10
+  const condition = { ...req.query, user: req.user._id }
+  const data = await Promise.all([{
+    orders: await OrderModel.findByCondition(condition, { page, limit }, sort),
+    total: await OrderModel.countByCondition(condition),
+    limit,
+  }])
+
+  data[0].orders = await Promise.all(data[0].orders.map(async (item) => {
+    const obj = await OrderModel.briefInfo(item)
+    return obj
+  }))
+  response.r200(res, data[0])
 }
 
 export default {
