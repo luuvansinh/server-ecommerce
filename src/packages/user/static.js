@@ -38,7 +38,7 @@ const briefInfo = async (user) => {
   const data = await Promise.all([{
     avatar: photo.avatar(user.avatar),
   }])
-  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender', 'active', 'statistic', 'role'])
+  const result = lodash.pick(user, ['_id', 'name', 'email', 'phone', 'gender', 'active', 'statistic', 'role', 'address'])
   return {
     ...result,
     ...data[0],

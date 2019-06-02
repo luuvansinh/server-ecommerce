@@ -8,7 +8,7 @@ import dbQuery from './query'
  */
 const findByCondition = async (condition) => {
   const query = dbQuery.findByCondition(condition)
-  const { data } = await to(CategoryModel.find(query).sort('-createdAt').lean())
+  const { data } = await to(CategoryModel.find(query).sort('order').lean())
   return data
 }
 

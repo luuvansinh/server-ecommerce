@@ -90,7 +90,7 @@ const briefInfo = async (order) => {
       const product = await ProductModel.getBaseInfo(item.product)
       return {
         ...item,
-        ...product,
+        product,
       }
     })),
   }])
