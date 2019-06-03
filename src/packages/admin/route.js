@@ -39,6 +39,8 @@ router.patch('/products/:productId/covers', UploadModule.uploadImage('file'), co
 
 router.delete('/products/:productId/covers', controller.productRemoveCover)
 
+router.post('/products/excel', UploadModule.uploadFileData('file'), controller.productImportExcel)
+
 router.param('productId', preQuery.product)
 
 /**

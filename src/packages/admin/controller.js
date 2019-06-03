@@ -1,5 +1,6 @@
 import { CategoryModel, ProductModel, OrderModel, UserModel, PromotionModel } from '../../model'
 import { getError, response } from '../../utils'
+import UploadModule from '../../modules/upload'
 
 const limit = 20
 
@@ -110,6 +111,18 @@ const productRemoveCover = async (req, res) => {
   return response.r200(res, { product })
 }
 
+const productImportExcel = async (req, res) => {
+  const { file } = req
+  const products = await UploadModule.readExcel(file.path)
+  UploadModule.deleteFile(file.path)
+
+  await Promise.all(products.map(async (item) => {
+    const result = await ProductModel.newDoc(item)
+    return result
+  }))
+  return response.r200(res, {})
+}
+
 
 // Orders
 const allOrders = async (req, res) => {
@@ -216,6 +229,7 @@ export default {
   getAllProducts,
   changeStatusProduct,
   productRemoveCover,
+  productImportExcel,
   detailProduct,
   uploadCovers,
   allOrders,

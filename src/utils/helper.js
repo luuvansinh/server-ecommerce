@@ -186,8 +186,21 @@ const getSlug = (value) => {
  */
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+/**
+ * Convert two array to object
+ *
+ * @param {Array} keys
+ * @param {Array} values
+ * @returns Object
+ */
+const arraysToObject = (keys = [], values = []) => {
+  const result = keys.reduce((obj, key, index) => ({ ...obj, [key]: values[index] }), {})
+  return result
+}
+
 export default {
   parseJSONString,
   getSlug,
   delay,
+  arraysToObject,
 }
