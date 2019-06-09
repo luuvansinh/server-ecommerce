@@ -21,4 +21,6 @@ const router = express.Router()
  */
 router.get('/', middleware.requiresLogin, MeCtrl.currentUserInfo)
 
+router.put('/update-info', middleware.requiresLogin, MeCtrl.updateInfo)
+
 export default router
