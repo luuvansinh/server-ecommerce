@@ -4,6 +4,7 @@ import ProductModel from './packages/product/model'
 import CartModel from './packages/cart/model'
 import OrderModel from './packages/order/model'
 import PromotionModel from './packages/promotion/model'
+import PaymentModel from './packages/payment/model'
 
 export {
   UserModel,
@@ -12,4 +13,5 @@ export {
   CartModel,
   OrderModel,
   PromotionModel,
+  PaymentModel,
 }

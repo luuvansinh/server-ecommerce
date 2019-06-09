@@ -63,6 +63,10 @@ const schema = new Schema({
   salt: String,
   hashedPassword: String,
   active: Boolean,
+  address: {
+    type: String,
+    default: '',
+  },
 }, {
   versionKey: false,
 })
